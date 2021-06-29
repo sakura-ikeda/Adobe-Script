@@ -2,10 +2,8 @@
 
 (function() { 
 
-//Photoshopのバージョンば22.2以下は実行しない
-if(parseFloat(app.version) <= 22.2) {
-    return;
-}
+//Photoshopのバージョンが22.2以下は処理をしない
+if(parseFloat(app.version) <= 22.2) return;
 
 var doc = app.activeDocument;
 var clippingPath = null;
@@ -23,11 +21,11 @@ for (index = 0; index < doc.pathItems.length; index++) {
     }
 }
 
-//クリッピングパスがない場合実行しない
+//クリッピングパスがない場合は処理をしない
 if(clippingPath == null) return;
 
 //設定しようとしているクリッピングパス名がすでに使われている場合、パス名が重複しなくなるまで数字を増やす
-for (index = 1; index < 99; index++) {
+for (index = 1; index < doc.pathItems.length + 1; index++) {
     if(pathItemsNames.indexOf("Path " + index) < 0) {
         clippingPath.name = "Path " + index;
         doc.save();
