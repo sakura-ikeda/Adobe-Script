@@ -2,23 +2,19 @@
 
 (function() { 
 
-//Photoshopのバージョンば22.2以下は実行しない
+//Photoshopのバージョンば22.2以下は処理をしない
 if(parseFloat(app.version) <= 22.2) return;
 
-//クリッピングパスが認識されていた場合を処理中止
+//クリッピングパスが認識されていた場合を処理をしない
 var index = 0;
 for (index = 0; index < app.activeDocument.pathItems.length; index++) {
     if (app.activeDocument.pathItems[index].kind == PathKind.CLIPPINGPATH) {
-        //return;
+        return;
     }
 }
 
-$.writeln("index:"+index);
-return;
-
-
 //アクティブなファイルパスを取得しバイナリモードで開く
-//開かなかった場合は処理中止
+//開かなかった場合は処理をしない
 var filePath = app.activeDocument.path+"/"+encodeURI(app.activeDocument.name);
 var fileObj = new File(filePath);
 var res = fileObj.open("r");
@@ -63,7 +59,6 @@ var pascalStrings = "";
 //$.writeln(resouceLength.toString(16));
 mfData = fileObj.read(resouceLength);
 fileObj.close();
-
 //$.writeln("mfData legnth:" + mfData.length);
 
 while (mfData.length > pointer) {
@@ -71,7 +66,6 @@ while (mfData.length > pointer) {
     //Signature 8BIM
     sig = mfData.slice(pointer, pointer += 4);
     //$.writeln("Signature:" + sig);
-
     //Identifier
     identifier = mfData.slice(pointer, pointer += 2);
     //$.writeln("Identifier:" + binaryToDecimal(toBinary(identifier)) + " 0x" + binaryToDecimal(toBinary(identifier)).toString(16));
@@ -115,7 +109,7 @@ while (mfData.length > pointer) {
         break;
     }
 
-    //無限ループ対策（最大100）
+    //無限ループ対策
     counter++;
     if (counter > 100) break;
 }
