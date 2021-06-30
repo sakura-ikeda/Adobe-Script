@@ -1,5 +1,6 @@
 # Adobe-Script
 全てのファイルを[ダウンロード](https://github.com/sakura-ikeda/Adobe-Script/archive/refs/heads/main.zip)
+###### ご利用に関して生じた損害などに対して、当方では一切の責任を負えませんのでよろしくお願いします。
 
 ## [Illustrator](https://github.com/sakura-ikeda/Adobe-Script/tree/main/Illustrator)
 #### [placedClippingPathName.scpt](https://github.com/sakura-ikeda/Adobe-Script/blob/main/Illustrator/placedClippingPathName.scpt)
