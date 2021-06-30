@@ -12,8 +12,8 @@ Photoshopイベント：ドキュメントを開く
 
 (function() { 
 
-    //Photoshopのバージョンが22.2以下は処理中止
-    if(parseFloat(app.version) <= 22.2) return;
+    //Photoshopのバージョンが22.3以下は処理中止
+    if(parseFloat(app.version) <= 22.3) return;
     //ドキュメントが開かれていない場合は処理中止
     if(documents.length == 0) return;
     //クリッピングパスが認識されている場合は処理中止
