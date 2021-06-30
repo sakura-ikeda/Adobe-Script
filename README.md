@@ -4,7 +4,7 @@
 ## [Illustrator](https://github.com/sakura-ikeda/Adobe-Script/tree/main/Illustrator)
 #### [placedClippingPathName.scpt](https://github.com/sakura-ikeda/Adobe-Script/blob/main/Illustrator/placedClippingPathName.scpt)
 Illustrator v24.3.1(CC2021)で、配置されたPSD画像に日本語を含むクリッピングパス名が使用されている場合、クリッピングパスが外れる不具合の対応スクリプト。<br>
-配置されたPSD画像をPhotoshopで開き、クリッピングパス名が日本語だった場合にPath 1のような英数字に変更して保存します。<br>
+配置されたPSD画像をPhotoshopで開き、クリッピングパス名が日本語だった場合にPath 1のような英数字に変更して保存します。なおPhotoshopは日本語のクリッピングパス名で不具合のないv22.2以下のバージョンを使用してください。<br>
 
 ## [Photoshop](https://github.com/sakura-ikeda/Adobe-Script/tree/main/Photoshop)
 
