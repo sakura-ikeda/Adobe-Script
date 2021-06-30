@@ -1,32 +1,43 @@
-#target photoshop;
+/*
+Photoshop v22.3以上のバージョンで日本語のクリッピングパス名がうまく保存されない不具合の対応スクリプト
+クリッピングパス名が日本語だった場合にPath 1のような英数字に変更して上書き保存する
+Photoshopのファイルメニュー/スクリプト/スクリプトマネージャーでの使用を想定しています
+
+スクリプトマネージャー設定内容
+Photoshopイベント：ドキュメントを保存
+スクリプト：このスクリプトを選択
+
+上記の設定によりファイルを保存したタイミングでクリッピングパス名が日本語だった場合にPath 1のような英数字に変換して上書き保存し直します。
+*/
 
 (function() { 
 
 //Photoshopのバージョンが22.2以下は処理をしない
 if(parseFloat(app.version) <= 22.2) return;
+//ドキュメントが開かれていない場合は処理をしない
+if(documents.length == 0) return;
 
 var doc = app.activeDocument;
 var clippingPath = null;
-var pathItemsNames = [];
-var re = new RegExp('^[\x200-9a-zA-z]+$');
-if (!Array.prototype.indexOf) { Array.prototype.indexOf = function indexOf(member, startFrom) { /* In non-strict mode, if the `this` variable is null or undefined, then it is set to the window object. Otherwise, `this` is automatically converted to an object. In strict mode, if the `this` variable is null or undefined, a `TypeError` is thrown. */ if (this == null) { throw new TypeError("Array.prototype.indexOf() - can't convert `" + this + "` to object"); } var index = isFinite(startFrom) ? Math.floor(startFrom) : 0, that = this instanceof Object ? this : new Object(this), length = isFinite(that.length) ? Math.floor(that.length) : 0; if (index >= length) { return -1; } if (index < 0) { index = Math.max(length + index, 0); } if (member === undefined) { /* Since `member` is undefined, keys that don't exist will have the same value as `member`, and thus do need to be checked. */ do { if (index in that && that[index] === undefined) { return index; } } while (++index < length); } else { do { if (that[index] === member) { return index; } } while (++index < length); } return -1; };}
 
-//クリッピングパスとパスアイテム名の取得
-for (index = 0; index < doc.pathItems.length; index++) {
-    pathItemsNames[index] = doc.pathItems[index].name;
+//日本語のクリッピングパスの取得
+for (var index = 0; index < doc.pathItems.length; index++) {
     if(doc.pathItems[index].kind == PathKind.CLIPPINGPATH) {
-        if(doc.pathItems[index].name.match(re) == null) {
+        if(doc.pathItems[index].name.match(/^[\x200-9a-zA-z]+$/) == null) {
             clippingPath = doc.pathItems[index];
         }
     }
 }
 
-//クリッピングパスがない場合は処理をしない
+//日本語のクリッピングパスがない場合は処理をしない
 if(clippingPath == null) return;
 
 //設定しようとしているクリッピングパス名がすでに使われている場合、パス名が重複しなくなるまで数字を増やす
-for (index = 1; index < doc.pathItems.length + 1; index++) {
-    if(pathItemsNames.indexOf("Path " + index) < 0) {
+//クリッピングパス名を設定後、上書き保存をする
+for (var index = 1; index < doc.pathItems.length + 1; index++) {
+    try {
+        doc.pathItems.getByName("Path " + index);
+    } catch (error) {
         clippingPath.name = "Path " + index;
         doc.save();
         break;
