@@ -25,6 +25,7 @@ for (var index = 0; index < doc.pathItems.length; index++) {
     if(doc.pathItems[index].kind == PathKind.CLIPPINGPATH) {
         if(doc.pathItems[index].name.match(/^[\x200-9a-zA-z]+$/) == null) {
             clippingPath = doc.pathItems[index];
+            break;
         }
     }
 }
